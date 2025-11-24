@@ -213,9 +213,9 @@ class SimpleLiquidGlassPowerButtonPlugin: NSObject, FlutterPlugin {
             
             rootViewController.present(alert, animated: true)
             result(true)
+            }
         }
-    }
-    
+        
     private func disableLiquidGlassForCurrentScreen(result: @escaping FlutterResult) {
         DispatchQueue.main.async {
             if let hostingController = self.hostingController {
@@ -1379,7 +1379,7 @@ class LiquidGlassTerminalInputPlugin: NSObject, FlutterPlugin {
         case "isLiquidGlassSupported":
             if #available(iOS 26.0, *) {
                 result(true)
-            } else {
+        } else {
                 result(false)
             }
         case "showTerminalInput":
