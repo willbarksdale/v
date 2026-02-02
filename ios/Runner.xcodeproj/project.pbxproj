@@ -11,7 +11,6 @@
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		18960C172ECAEDFA005E70A0 /* Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18960C152ECAEDFA005E70A0 /* Toolbar.swift */; };
 		18C9D1E72EA1F3AC0002F2AA /* v copy.png in Resources */ = {isa = PBXBuildFile; fileRef = 18C9D1E62EA1F3AC0002F2AA /* v copy.png */; };
-		18E1796C2ED49735006DE0C7 /* SSHScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E1796B2ED49735006DE0C7 /* SSHScreen.swift */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
@@ -50,7 +49,6 @@
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		18960C152ECAEDFA005E70A0 /* Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toolbar.swift; sourceTree = "<group>"; };
 		18C9D1E62EA1F3AC0002F2AA /* v copy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "v copy.png"; sourceTree = "<group>"; };
-		18E1796B2ED49735006DE0C7 /* SSHScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SSHScreen.swift; sourceTree = "<group>"; };
 		331C807B294A618700263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
 		331C8081294A63A400263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
@@ -96,7 +94,6 @@
 		184102BF2E9F916E004D2B4E /* LiquidGlass */ = {
 			isa = PBXGroup;
 			children = (
-				18E1796B2ED49735006DE0C7 /* SSHScreen.swift */,
 				18960C152ECAEDFA005E70A0 /* Toolbar.swift */,
 			);
 			path = LiquidGlass;
@@ -394,7 +391,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18E1796C2ED49735006DE0C7 /* SSHScreen.swift in Sources */,
 				18960C172ECAEDFA005E70A0 /* Toolbar.swift in Sources */,
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,

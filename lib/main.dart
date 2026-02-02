@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'native_ssh_screen.dart';
+import 'ssh.dart';
 
 void main() {
   runApp(const ProviderScope(child: MyApp()));
@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const NativeSSHManager(),
+      home: const HomeScreen(),
     );
   }
 }

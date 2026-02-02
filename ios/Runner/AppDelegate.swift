@@ -40,9 +40,6 @@ import UIKit
     // Register Shortcut Alerts plugin
     ShortcutAlertsPlugin.register(with: self.registrar(forPlugin: "ShortcutAlertsPlugin")!)
     
-    // Register Native SSH Screen plugin
-    NativeSSHScreenPlugin.register(with: self.registrar(forPlugin: "NativeSSHScreenPlugin")!)
-    
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }

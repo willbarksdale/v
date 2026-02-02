@@ -756,7 +756,7 @@ class TerminalTabsNotifier extends StateNotifier<TerminalTabsState> {
   void _handleTmuxEvent(TmuxEvent event) {
     // Reduce debug spam - only log non-output events
     if (event is! TmuxOutput) {
-      debugPrint('📨 Handling tmux event: ${event.runtimeType}');
+    debugPrint('📨 Handling tmux event: ${event.runtimeType}');
     }
     
     if (event is TmuxSessionReady) {
@@ -818,7 +818,7 @@ class TerminalTabsNotifier extends StateNotifier<TerminalTabsState> {
       
       while (!tmuxInstalled) {
         attempt++;
-        
+          
         // Check if we've exceeded the overall timeout
         if (DateTime.now().difference(startTime) > maxDuration) {
           debugPrint('⏰ Tmux detection timed out after ${maxDuration.inSeconds} seconds');
@@ -838,10 +838,10 @@ class TerminalTabsNotifier extends StateNotifier<TerminalTabsState> {
           if (tmuxInstalled) {
             debugPrint('✅ tmux detected after $attempt attempt(s)');
             break; // Success! Exit loop
-          } else {
+        } else {
             // Not found, but no error - continue retrying
             debugPrint('⚠️ tmux not found, retrying...');
-          }
+        }
         } catch (e) {
           debugPrint('⚠️ Tmux check attempt $attempt failed: $e');
           // Don't give up - keep trying (unless timeout reached)
@@ -851,11 +851,11 @@ class TerminalTabsNotifier extends StateNotifier<TerminalTabsState> {
       if (!tmuxInstalled) {
         // tmux not found after continuous checking - show requirement screen
         debugPrint('❌ tmux not installed (checked for ${DateTime.now().difference(startTime).inSeconds}s)');
-        state = state.copyWith(
+      state = state.copyWith(
           statusMessage: 'tmux_required',
           clearStatusMessage: false,
         );
-        _isInitializing = false;
+      _isInitializing = false;
         return;
       }
       
@@ -873,33 +873,33 @@ class TerminalTabsNotifier extends StateNotifier<TerminalTabsState> {
         terminalWidth: terminalWidth,
         terminalHeight: terminalHeight,
       ).timeout(const Duration(seconds: 15));
-      
-      if (success) {
+        
+        if (success) {
         debugPrint('✅ All tmux sessions initialized');
         // Tabs will be created automatically via TmuxSessionReady events
-        state = state.copyWith(
-          tmuxReady: true,
-          statusMessage: null,
-        );
-      } else {
+          state = state.copyWith(
+            tmuxReady: true,
+            statusMessage: null,
+          );
+        } else {
         debugPrint('❌ Failed to initialize tmux sessions');
-        state = state.copyWith(
+          state = state.copyWith(
           statusMessage: 'Failed to initialize tmux. Please check your connection.',
-        );
-      }
+          );
+        }
       
     } catch (e, stackTrace) {
       debugPrint('❌ Error initializing tmux: $e');
       debugPrint('Stack trace: $stackTrace');
-      state = state.copyWith(
+        state = state.copyWith(
         statusMessage: 'Error: $e',
-      );
+        );
     } finally {
       _isInitializing = false;
       debugPrint('🏁 initializeTmux finished');
     }
   }
-  
+
   Future<void> _createTabForSession(int sessionIndex, String sessionName) async {
     final tabId = DateTime.now().millisecondsSinceEpoch.toString();
     final tabName = '${sessionIndex + 1}';
@@ -922,7 +922,7 @@ class TerminalTabsNotifier extends StateNotifier<TerminalTabsState> {
     // Only set active tab index for the first session (session 0 = tab 1)
     // Subsequent sessions are created but not automatically selected
     final shouldSetActive = state.tabs.isEmpty;
-    
+
     state = state.copyWith(
       tabs: [...state.tabs, newTab],
       activeTabIndex: shouldSetActive ? 0 : null, // Stay on first tab
@@ -936,11 +936,11 @@ class TerminalTabsNotifier extends StateNotifier<TerminalTabsState> {
     
     if (index < 0 || index >= state.tabs.length) {
       debugPrint('❌ Invalid tab index: $index');
-      return;
-    }
-    
+        return;
+      }
+      
     final tab = state.tabs[index];
-    
+
     // Switch tmux session
     await _tmuxService.switchToSession(tab.sessionIndex);
     
@@ -982,11 +982,11 @@ class TerminalTabsNotifier extends StateNotifier<TerminalTabsState> {
         terminalWidth: tab.terminalWidth,
         terminalHeight: tab.terminalHeight,
       );
-      if (session == null) {
+        if (session == null) {
         debugPrint('❌ Failed to create shell session');
-        return;
-      }
-      
+          return;
+        }
+        
       // Start fresh tmux session
       session.write(utf8.encode('tmux new-session -s $sessionName\n'));
       
@@ -999,41 +999,41 @@ class TerminalTabsNotifier extends StateNotifier<TerminalTabsState> {
       // Set up new output listener
       _tmuxService._subscriptions[sessionIndex] = session.stdout.listen(
         (data) => _tmuxService._handleSessionOutput(sessionIndex, data),
-        onError: (error) {
+          onError: (error) {
           debugPrint('❌ Session $sessionIndex error: $error');
         },
         onDone: () {
           debugPrint('⚠️ Session $sessionIndex closed');
           _tmuxService._sessions[sessionIndex] = null;
-        },
-      );
-      
+          },
+        );
+
       // Listen to stderr only for logging errors (don't send to terminal display)
-      session.stderr.listen(
-        (data) {
-          final output = utf8.decode(data);
+        session.stderr.listen(
+          (data) {
+            final output = utf8.decode(data);
           debugPrint('⚠️ Session $sessionIndex stderr: ${output.trim()}');
-        },
-        onError: (error) {
+          },
+          onError: (error) {
           debugPrint('❌ Session $sessionIndex stderr error: $error');
-        },
-      );
-      
+          },
+        );
+        
       debugPrint('✅ Terminal session $sessionIndex reset successfully');
       
-    } catch (e, stackTrace) {
+      } catch (e, stackTrace) {
       debugPrint('❌ Error resetting terminal: $e');
-      debugPrint('Stack trace: $stackTrace');
+        debugPrint('Stack trace: $stackTrace');
+      }
     }
-  }
-  
+
   Future<void> sendInput(String text) async {
     if (!_tmuxService.isInitialized) {
       debugPrint('❌ Cannot send input: tmux not initialized');
       return;
     }
-    
-    await _tmuxService.sendInput(text);
+
+      await _tmuxService.sendInput(text);
   }
 
   void clearStatusMessage() {
@@ -1076,7 +1076,7 @@ class _TerminalScreenState extends ConsumerState<TerminalScreen> {
   List<Map<String, String>> _customShortcuts = [];
   static const int maxCustomShortcuts = 10;
   static const String _customShortcutsKey = 'custom_terminal_shortcuts';
-  
+
   @override
   void initState() {
     super.initState();
@@ -1592,11 +1592,11 @@ class _TerminalScreenState extends ConsumerState<TerminalScreen> {
   }
 
   void _sendCommand(String command) {
-    ref.read(terminalTabsProvider.notifier).sendInput('$command\r');
+      ref.read(terminalTabsProvider.notifier).sendInput('$command\r');
   }
 
   void _sendKeys(String sequence) {
-    ref.read(terminalTabsProvider.notifier).sendInput(sequence);
+      ref.read(terminalTabsProvider.notifier).sendInput(sequence);
   }
 
   @override
@@ -1695,7 +1695,7 @@ class _TerminalScreenState extends ConsumerState<TerminalScreen> {
         });
       }
     }
-    
+
     return Scaffold(
       backgroundColor: const Color(0xFF0a0a0a),
       resizeToAvoidBottomInset: true,
@@ -1896,8 +1896,8 @@ class _TerminalScreenState extends ConsumerState<TerminalScreen> {
           child: Padding(
             padding: const EdgeInsets.all(32.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
                 // Icon
                 const Icon(
                   CupertinoIcons.square_stack_3d_up,
@@ -1923,9 +1923,9 @@ class _TerminalScreenState extends ConsumerState<TerminalScreen> {
                 const Text(
                   'This app uses tmux for persistent terminal sessions.\n\n'
                   'Install tmux on your server to continue:',
-                  style: TextStyle(
+                            style: TextStyle(
                     color: Colors.white70,
-                    fontSize: 16,
+                              fontSize: 16,
                     height: 1.5,
                     decoration: TextDecoration.none,
                   ),
@@ -1965,8 +1965,8 @@ class _TerminalScreenState extends ConsumerState<TerminalScreen> {
                   child: const Text(
                     'Retry Connection',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-                  ),
-                ),
+                            ),
+                          ),
                 const SizedBox(height: 12),
                 Text(
                   'Install tmux and click Retry',
@@ -1974,9 +1974,9 @@ class _TerminalScreenState extends ConsumerState<TerminalScreen> {
                     color: Colors.grey[600],
                     fontSize: 14,
                     decoration: TextDecoration.none,
-                  ),
-                  textAlign: TextAlign.center,
                 ),
+                  textAlign: TextAlign.center,
+              ),
               ],
             ),
           ),
@@ -1984,22 +1984,22 @@ class _TerminalScreenState extends ConsumerState<TerminalScreen> {
       ),
     );
   }
-  
+
   Widget _buildInstallCommand(String os, String command) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
           Text(
             os,
             style: const TextStyle(
-              color: Colors.white,
+                    color: Colors.white,
               fontSize: 14,
               fontWeight: FontWeight.w600,
               decoration: TextDecoration.none,
-            ),
-          ),
+                  ),
+                ),
           const SizedBox(height: 4),
           Container(
             width: double.infinity,
@@ -2011,10 +2011,10 @@ class _TerminalScreenState extends ConsumerState<TerminalScreen> {
             ),
             child: Text(
               command,
-              style: const TextStyle(
+                  style: const TextStyle(
                 color: Colors.blue,
                 fontSize: 13,
-                fontFamily: 'monospace',
+                    fontFamily: 'monospace',
                 fontWeight: FontWeight.w500,
                 decoration: TextDecoration.none,
               ),
